@@ -60,7 +60,7 @@ class Login extends Component {
       else if(result.data[0].password === data.password)
       {
         console.log(result.data);
-        sessionStorage.setItem('token', result.data[0].email);
+        sessionStorage.setItem('token', result.data[0]._id);
         window.location='/articles'
       }
       else if(result.data[0].password !== data.password)

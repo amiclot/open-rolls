@@ -46,29 +46,40 @@ class Articles extends Component {
   }
 
 
+
   state = {
-    user: {
-      email: "",
-      events:[]  
-    },
+    id:0,
+    email: "",
+    street: "",
+    city: "",
+    state: "",
+    zip: "",
+    belt: "",
     events: [],
     saved:[],
     articles: [],
     modalIsOpen: false,
     instructorFirstName: "",
     instructorLastName: "",
-    street: "",
-    city: "",
-    state: "",
-    zip: "",
-    email: "",
-    totalMembers: "",
-    typeOfGym: "",
+    eventStreet: "",
+    eventCity: "",
+    eventState: "",
+    eventZip: "",
+    eventEmail: "",
+    eventTotalMembers: "",
+    nameOfGym: "",
     date: "",
     time:""
   }
 
-  componentDidMount() {
+  componentWillMount = () => {
+    // let userVerified = false;
+    const userID = sessionStorage.getItem('token');
+    this.setState({id: userID})
+    
+  }
+
+  componentDidMount = () => {
     this.onMount();
     // this.practiceSetState('poop', 'poopy', 'butt');
   }
@@ -76,6 +87,7 @@ class Articles extends Component {
   onMount = () => {
     this.scrapeArticles();
     this.loadEvents();
+    console.log("This is the user ID " + this.state.id);
   }
 
   // componentDidMount() {
@@ -83,18 +95,18 @@ class Articles extends Component {
   //   this.loadsavedarticles();
   // }
 
-  saveNewEvent = (instructorFirstName, instructorLastName, street, city, state, zip, email, totalMembers, typeOfGym, date, time) => {
+  saveNewEvent = (instructorFirstName, instructorLastName, street, city, state, zip, email, totalMembers, nameOfGym, date, time) => {
       API.saveevent({
-        //this save article should be changes to save user, new model needs created
+        
         instructorFirstName: this.state.instructorFirstName,
         instructorLastName: this.state.instructorLastName,
-        street: this.state.street,
-        city: this.state.city,
-        state: this.state.state,
-        zip: this.state.zip,
-        email: this.state.email,
+        street: this.state.eventStreet,
+        city: this.state.eventCity,
+        state: this.state.eventState,
+        zip: this.state.eventZip,
+        email: this.state.eventEmail,
         totalMembers: this.state.totalMembers,
-        typeOfGym: this.state.typeOfGym,
+        nameOfGym: this.state.nameOfGym,
         date: this.state.date,
         time: this.state.time
       })
@@ -229,7 +241,7 @@ class Articles extends Component {
                   <ListItem key={event._id}>
                   <div className="row">
                     <div>
-                      <h4 className="event-title">{event.typeOfGym}</h4>
+                      <h4 className="event-title">{event.nameOfGym}</h4>
                       <h6 className="grow-hover">Open Mat Date: {event.date} Open Mat Time: {event.time}</h6>
                     </div>
                   </div>
@@ -295,35 +307,35 @@ class Articles extends Component {
                       placeholder="Instructor Last Name"
                     />
                     <Input
-                      value={this.state.street}
+                      value={this.state.eventStreet}
                       onChange={this.handleInputChange}
-                      name="street"
+                      name="eventStreet"
                       placeholder="Street"
                     />
                     <Input
-                      value={this.state.city}
+                      value={this.state.eventCity}
                       onChange={this.handleInputChange}
-                      name="city"
+                      name="eventCity"
                       placeholder="City"
                     />
                     <Input
-                      value={this.state.state}
+                      value={this.state.eventState}
                       onChange={this.handleInputChange}
-                      name="state"
+                      name="eventState"
                       placeholder="State"
                     />
                     <Input
-                      value={this.state.zip}
+                      value={this.state.eventZip}
                       onChange={this.handleInputChange}
-                      name="zip"
+                      name="eventZip"
                       placeholder="Zip Code"
                     />
                   </Col>
                   <Col size ="xs-6">
                     <Input
-                      value={this.state.email}
+                      value={this.state.eventEmail}
                       onChange={this.handleInputChange}
-                      name="email"
+                      name="eventEmail"
                       placeholder="E-Mail"
                       type="email"
                     />
@@ -336,9 +348,9 @@ class Articles extends Component {
                       type="number"
                     />
                     <Input
-                      value={this.state.typeOfGym}
+                      value={this.state.nameOfGym}
                       onChange={this.handleInputChange}
-                      name="typeOfGym"
+                      name="nameOfGym"
                       placeholder="Gym Name"
                     />
                     <Input
@@ -356,7 +368,7 @@ class Articles extends Component {
                       type="time"
                     />
                   </Col>
-                  <FormBtn onClick={() => this.saveNewEvent(this.state.instuctorFirstName, this.state.instructorLastName, this.state.street, this.state.city, this.state.state, this.state.zip, this.state.email, this.state.totalMembers, this.state.typeOfGym, this.state.date, this.state.time)} title="Submit"/>
+                  <FormBtn onClick={() => this.saveNewEvent(this.state.instuctorFirstName, this.state.instructorLastName, this.state.eventStreet, this.state.eventCity, this.state.eventState, this.state.eventZip, this.state.eventEmail, this.state.totalMembers, this.state.nameOfGym, this.state.date, this.state.time)} title="Submit"/>
                 </form>
               </Modal>
             </Card>

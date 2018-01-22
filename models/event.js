@@ -40,7 +40,7 @@ var UserSchema = new Schema({
     type: Number,
     required: false
   },
-  typeOfGym: {
+  nameOfGym: {
     type: String,
     required: false
   },
