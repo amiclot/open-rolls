@@ -23,10 +23,44 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   saveEvent: function(req, res) {
-    db.Event
-      .create(req.body)
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+    const token = req.body.id;
+    const eventData = {
+        'instructorFirstName': req.body.instructorFirstName,
+        'instructorLastName': req.body.instructorLastName,
+        'street': req.body.street,
+        'city': req.body.city,
+        'state': req.body.state,
+        'zip': req.body.zip,
+        'email': req.body.email,
+        'totalMembers': req.body.totalMembers,
+        'nameOfGym': req.body.nameOfGym,
+        'date': req.body.date,
+        'time': req.body.time
+    }
+    const newEvent = new db.Event(eventData);
+    db.Event.create(req.body).then(function(result) {
+        newEvent.save(function(error, doc) {
+            // Send any errors to the browser
+            if (error) {
+              res.send(error);
+            }
+            // Otherwise
+            else {
+              // Find our user and push the new note id into the User's notes array
+              db.User.findOneAndUpdate({ "_id": token }, { $push: { "events": doc._id } }, { new: true }, function(err, newdoc) {
+                  // Send any errors to the browser
+                  if (err) {
+                    res.send(err);
+                  }
+                  // Or send the newdoc to the browser
+                  else {
+                    res.send(newdoc);
+                  }
+              });
+            }
+        });
+    });
+
   },
   findAllSaved: function(req, res) {
     db.Saved

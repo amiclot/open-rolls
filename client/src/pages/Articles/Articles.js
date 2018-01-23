@@ -95,9 +95,9 @@ class Articles extends Component {
   //   this.loadsavedarticles();
   // }
 
-  saveNewEvent = (instructorFirstName, instructorLastName, street, city, state, zip, email, totalMembers, nameOfGym, date, time) => {
+  saveNewEvent = (id, instructorFirstName, instructorLastName, street, city, state, zip, email, totalMembers, nameOfGym, date, time) => {
       API.saveevent({
-        
+        id: this.state.id,
         instructorFirstName: this.state.instructorFirstName,
         instructorLastName: this.state.instructorLastName,
         street: this.state.eventStreet,
@@ -272,7 +272,7 @@ class Articles extends Component {
                 ))}
               </List>
               ) : (
-              <h3>No Results to Display Poop</h3>
+              <h3>No Results to Display</h3>
               )}
             </Card>
           </Col>
@@ -368,7 +368,7 @@ class Articles extends Component {
                       type="time"
                     />
                   </Col>
-                  <FormBtn onClick={() => this.saveNewEvent(this.state.instuctorFirstName, this.state.instructorLastName, this.state.eventStreet, this.state.eventCity, this.state.eventState, this.state.eventZip, this.state.eventEmail, this.state.totalMembers, this.state.nameOfGym, this.state.date, this.state.time)} title="Submit"/>
+                  <FormBtn onClick={() => this.saveNewEvent(this.state.id, this.state.instuctorFirstName, this.state.instructorLastName, this.state.eventStreet, this.state.eventCity, this.state.eventState, this.state.eventZip, this.state.eventEmail, this.state.totalMembers, this.state.nameOfGym, this.state.date, this.state.time)} title="Submit"/>
                 </form>
               </Modal>
             </Card>
