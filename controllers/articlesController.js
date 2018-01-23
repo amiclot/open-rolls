@@ -39,26 +39,17 @@ module.exports = {
     }
     const newEvent = new db.Event(eventData);
     db.Event.create(req.body).then(function(result) {
-        newEvent.save(function(error, doc) {
-            // Send any errors to the browser
-            if (error) {
-              res.send(error);
-            }
-            // Otherwise
-            else {
-              // Find our user and push the new note id into the User's notes array
-              db.User.findOneAndUpdate({ "_id": token }, { $push: { "events": doc._id } }, { new: true }, function(err, newdoc) {
-                  // Send any errors to the browser
-                  if (err) {
-                    res.send(err);
-                  }
-                  // Or send the newdoc to the browser
-                  else {
-                    res.send(newdoc);
-                  }
-              });
-            }
-        });
+      // Find our user and push the new event id into the User's notes array
+      db.User.findOneAndUpdate({ "_id": token }, { $push: { "events": doc._id } }, { new: true }, function(err, newdoc) {
+          // Send any errors to the browser
+          if (err) {
+            res.send(err);
+          }
+          // Or send the newdoc to the browser
+          else {
+            res.send(newdoc);
+          }
+      });
     });
 
   },
@@ -81,6 +72,12 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   getEvents: function(req, res) {
+    db.Event
+      .find(req.query)
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+  getUserEvents: function(req, res) {
     db.Event
       .find(req.query)
       .then(dbModel => res.json(dbModel))
