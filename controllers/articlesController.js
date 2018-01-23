@@ -77,11 +77,18 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  getUserEvents: function(req, res) {
-    db.Event
-      .find(req.query)
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+  getuserData: function(req, res) {
+    const userID = req.params.id;
+    User.findById(userID)
+      .populate(["events", "saves"])
+      .exec(function(error, doc) {
+        if (error) {
+          res.send(error);
+        }
+        else {
+          res.send(doc);
+        }
+    });
   },
   create: function(req, res) {
     var article = {};

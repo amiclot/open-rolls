@@ -48,7 +48,7 @@ class Articles extends Component {
 
 
   state = {
-    id:0,
+    id:"",
     email: "",
     street: "",
     city: "",
@@ -58,6 +58,7 @@ class Articles extends Component {
     events: [],
     saved:[],
     articles: [],
+    userEvents: [],
     modalIsOpen: false,
     instructorFirstName: "",
     instructorLastName: "",
@@ -87,6 +88,7 @@ class Articles extends Component {
   onMount = () => {
     this.scrapeArticles();
     this.loadEvents();
+    this.getuserData();
     console.log("This is the user ID " + this.state.id);
   }
 
@@ -183,6 +185,20 @@ class Articles extends Component {
 
   scrapeArticles = () => {
     API.scrapeArticles()
+  }
+
+  getuserData = (id) => {
+    API.getuserData(this.state.id)
+      .then(res => 
+        this.setState({ 
+          email: res.data.email,
+          userEvents: res.data.events
+        },  
+        function () {
+        console.log(this.state);
+        })
+      )
+      .catch(err => console.log(err));
   }
 
   addOne = id => {

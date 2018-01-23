@@ -7,5 +7,7 @@ router.route("/")
 // Matches with "/api/user/login"
 router.route("/login/:email/:password")
   .get(articlesController.findByEmail);
+router.route("/user/:id")
+	.get(articlesController.getuserData);
 
 module.exports = router;

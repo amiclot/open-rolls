@@ -38,6 +38,9 @@ export default {
   },
   addOne: function(id) {
     return axios.put("/api/event/" + id);
+  },
+  getuserData: function(id) {
+    return axios.get("/api/user/" + id);
   }
 
 
