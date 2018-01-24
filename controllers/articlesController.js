@@ -39,7 +39,7 @@ module.exports = {
     }
     const newEvent = new db.Event(eventData);
     db.Event.create(req.body).then(function(result) {
-      // Find our user and push the new event id into the User's notes array
+      // Find our user and push the new event id into the User's events array
       db.User.findOneAndUpdate({ "_id": token }, { $push: { "events": doc._id } }, { new: true }, function(err, newdoc) {
           // Send any errors to the browser
           if (err) {
@@ -79,16 +79,10 @@ module.exports = {
   },
   getuserData: function(req, res) {
     const userID = req.params.id;
-    User.findById(userID)
-      .populate(["events", "saves"])
-      .exec(function(error, doc) {
-        if (error) {
-          res.send(error);
-        }
-        else {
-          res.send(doc);
-        }
-    });
+    db.User.find({ _id: userID })
+      .populate("events")
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
     var article = {};

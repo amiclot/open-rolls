@@ -187,12 +187,12 @@ class Articles extends Component {
     API.scrapeArticles()
   }
 
-  getuserData = (id) => {
+  getuserData = () => {
     API.getuserData(this.state.id)
       .then(res => 
         this.setState({ 
-          email: res.data.email,
-          userEvents: res.data.events
+          email: res.data[0].email,
+          userEvents: res.data[0].events
         },  
         function () {
         console.log(this.state);
